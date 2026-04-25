@@ -41,6 +41,74 @@ python -m blast_radius analyze /path/to/target/repo
 python -m blast_radius analyze /path/to/target/repo --dry-run
 ```
 
+## Branching Strategy
+
+**Three-branch model for clean releases:**
+
+| Branch | Purpose | Merge Policy |
+|--------|---------|--------------|
+| `main` | Production-ready releases (tagged versions) | Merge from `release/` when ready for PyPI |
+| `release` | Integration branch for next release | Merge from `feature/*` when feature complete |
+| `feature/*` | Feature development (one per task/phase) | Create from `release`, merge back when done |
+
+**Workflow:**
+```bash
+# Start a new feature
+git checkout release
+git pull origin release
+git checkout -b feature/phase-5-resolver
+
+# Develop and commit (all tests must pass)
+git add ...
+git commit -m "feat: implement resolver module"
+
+# When feature complete: create PR, merge to release
+git push origin feature/phase-5-resolver
+# (GitHub: Create PR feature/phase-5-resolver → release)
+# (After review: Merge to release)
+
+# When release ready: merge to main and tag
+git checkout main
+git pull origin main
+git merge release
+git tag -a v0.2.0 -m "Release v0.2.0"
+git push origin main --tags
+```
+
+**Rules:**
+- Only tested, reviewed code merges to `release`
+- Only release-quality code merges to `main`
+- All pushes trigger CI/CD (tests must pass)
+- All releases are tagged (semantic versioning)
+
+## Building as PyPI Package
+
+The project is configured for PyPI distribution:
+
+```bash
+# Install in development mode (editable)
+pip install -e .
+
+# Build distribution package
+pip install build
+python -m build
+
+# Upload to PyPI (requires credentials)
+pip install twine
+twine upload dist/*
+```
+
+**Current PyPI metadata in `pyproject.toml`:**
+- Package name: `blast-radius`
+- Version: `0.1.0` (increment for each release)
+- Entry point: `blast-radius` CLI command
+- Python requirement: `>=3.10`
+
+**Build artifacts (auto-generated, gitignored):**
+- `dist/` — wheel and sdist packages
+- `build/` — build artifacts
+- `*.egg-info/` — egg metadata
+
 ## Running Tests
 
 ```bash
