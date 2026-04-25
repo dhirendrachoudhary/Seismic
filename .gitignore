@@ -1,0 +1,25 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+dist/
+build/
+
+# Environment
+.env
+
+# Data — SQLite training DB is local-only
+data/interactions.db
+
+# Pytest
+.pytest_cache/
+.report.json
+htmlcov/
+.coverage
+
+# Editor
+.DS_Store
+.idea/
+.vscode/
