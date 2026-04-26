@@ -5,7 +5,7 @@ import json
 from typing import Optional
 from dataclasses import dataclass
 
-from src.blast_radius.parser.python import FunctionNode
+from blast_radius.parser.python import FunctionNode
 
 
 # ============================================================================
