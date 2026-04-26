@@ -2,9 +2,9 @@
 
 from typing import Optional
 
-from src.blast_radius.git_diff import ChangedRange
-from src.blast_radius.graph import CodeGraph
-from src.blast_radius.parser.python import FunctionNode
+from blast_radius.git_diff import ChangedRange
+from blast_radius.graph import CodeGraph
+from blast_radius.parser.python import FunctionNode
 
 
 class FunctionResolver:
